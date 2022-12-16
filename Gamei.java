@@ -39,24 +39,40 @@ public class Gamei {
 		Random r=new Random();
 		int cut = r.nextInt(deck.length);
 		String[] deck2=new String[deck.length];
-		String[] top=new String[deck.length-cut];
-		String[] bottom=new String[cut];
-		for(int i=cut ;i<deck.length ;i++) {
-			top[i]=deck2[i];
-			   
+		String[] top=new String[cut];
+		String[] bottom=new String[deck.length-cut];
+		
+		for(int i=0 ;i<cut ;i++) {
+			top[i]=deck[i];
+			deck2[i]=top[i];
 		}
 		
-		for(int i=0; i<cut; i++) {
-			bottom[i]=deck2[i];
+		for(int i=cut; i<deck.length; i++) {
+			bottom[i-cut]=deck[i];
+			deck2[i]=bottom[i-cut];
 		}
 		for(int i=0;i<52;i++) {
-			//System.out.println(deck[i]);
+			System.out.println(deck2[i]);
 			
 		}
-		
 	}
-	public void 
+	public void Deal() {
+		String[] Table= new String[4];
+		
+			
+		for(int i=0;i<8;i=i+2) {
+				
+		}
+		for(int i=1;i<8;i=i+2) {
+				
+		}
+	}
 }
+		
+		
+	
+	
+
         
 		
 		
