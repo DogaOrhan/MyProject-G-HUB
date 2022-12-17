@@ -1,5 +1,4 @@
 import java.util.Random;
-
 import java.util.Scanner;
 
 
@@ -54,20 +53,72 @@ public class Gamei {
 		for(int i=0;i<52;i++) {
 			System.out.println(deck2[i]);
 			
+			
 		}
+		//System.out.println("finish");
 	}
 	public void Deal() {
 		String[] Table= new String[4];
-		
+		String[] Player1= new String[4];
+		String[] Player2= new String[4];
 			
 		for(int i=0;i<8;i=i+2) {
-				
+			Player1[i/2]=deck[i];
+			System.out.println(Player1[i/2]);
 		}
+		
 		for(int i=1;i<8;i=i+2) {
-				
+			Player2[(i-1)/2]=deck[i];
+			System.out.println(Player2[(i-1)/2]);
 		}
+				
+		for(int i=8;i<12;i++) {
+			Table[i-8]=deck[i];
+			System.out.println(Table[i-8]);
+			
+		}
+		System.out.println(Table[3]);
 	}
+	public void Move() {
+		String P1card;
+		String P2card;
+		String[] Table= new String[4];
+		for(int i=8;i<12;i++) {
+			Table[i-8]=deck[i];
+		}
+		Scanner sc =new Scanner(System.in);
+		P1card=sc.nextInt();
+		if(P1card==Table[3]) {
+			System.out.println("oyuncu tüm kartları alır");
+		}else {
+			System.out.println("sıra geçti");
+		}
+		P2card=sc.nextInt();
+		if(P2card==Table[3]) {
+		    System.out.println("");
+		}else {
+			System.out.println("");
+		}
+		return;	
+	}
+		
+		
+		
+			
+	
+			
+		
+		
+		
+			
+			
+		
+		
+		
+	
 }
+	
+
 		
 		
 	
