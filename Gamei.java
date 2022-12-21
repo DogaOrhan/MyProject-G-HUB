@@ -6,16 +6,24 @@ public class Gamei {
 	public String[] shapes= {"♠","♣","♥ ","♦"};
 
 	public String[] suits= {"ace","2","3","4","5","6","7","8","9","10","J","Q","K"};
-	public String[] deck= new String [52];
-	String[] Table= new String[4];
-	String[] Player1= new String[4];
-	String[] Player2= new String[4];
+	
+	Deck[] deck = new Deck[52];
+	Deck[] Table= new Deck[4];
+	Deck[] Player1= new Deck[4];
+	Deck[] Player2= new Deck[4];
 	
 	
 	public void Deck() {
-		for(int i=0;i<deck.length; i++) {
-			deck[i] =shapes[i/13] + suits[i%13];
- 			//System.out.println(deck[i]);
+		for (int i=0;i<52;i++) {
+			deck[i]=new Deck();
+		}
+		int num=0;
+		for(int j=0;j<4;j++) {
+			for(int i=0;i<13;i++) {
+				deck[num].setSuits(suits[i]);
+				deck[num].setShapes(shapes[j]);
+				num++;
+			}
 		}
 		
 		
@@ -25,7 +33,7 @@ public class Gamei {
 		Random rd = new Random();
 		for(int i=0; i<deck.length;i++) {
 			int random = rd.nextInt(52);
-			String Temp = deck[i];
+			Deck Temp = deck[i];
 			deck[i]=deck[random];
 			deck[random]=Temp;
 			
@@ -41,9 +49,9 @@ public class Gamei {
 	public void Cut() {
 		Random r=new Random();
 		int cut = r.nextInt(deck.length);
-		String[] deck2=new String[deck.length];
-		String[] top=new String[cut];
-		String[] bottom=new String[deck.length-cut];
+		Deck[] deck2=new Deck[deck.length];
+		Deck[] top=new Deck[cut];
+		Deck[] bottom=new Deck[deck.length-cut];
 		
 		for(int i=0 ;i<cut ;i++) {
 			top[i]=deck[i];
@@ -60,13 +68,13 @@ public class Gamei {
 		System.out.println("YOUR CARDS");			
 		for(int i=0;i<8;i=i+2) {
 			Player1[i/2]=deck[i];
-			System.out.println((i/2)+1 +" = "+ Player1[i/2]);
+			System.out.println((i/2)+1 +" = "+ Player1[i/2].getShapes()+Player1[i/2].getSuits());
 		}
 		System.out.println("..........");
 		System.out.println("PLAYER2'S CARDS");
 		for(int i=1;i<8;i=i+2) {
 			Player2[(i-1)/2]=deck[i];
-			System.out.println(Player2[(i-1)/2]);
+			System.out.println(Player2[(i-1)/2].getShapes()+Player2[(i-1)/2].getSuits());
 		}
 		System.out.println("..........");
 				
@@ -77,7 +85,7 @@ public class Gamei {
 		}
 		System.out.println("..........");
 
-		System.out.println("topcard= " + Table[3]);
+		System.out.println("topcard= " + Table[3].getShapes()+Table[3].getSuits());
 	}
 
 	public void Move() {			
@@ -95,7 +103,7 @@ public class Gamei {
 			if(Player1[P1card]==Table[3]) {
 				System.out.println("ALL CARDS ARE YOUR");
 			}else {
-				System.out.println("SELECTED CARD=" + Player1[P1card]);
+				System.out.println("SELECTED CARD=" + Player1[P1card].getShapes()+Player1[P1card].getSuits());
 				System.out.println("PLAYER2'S TURN");
 				System.out.println("..............");
 			}
@@ -105,7 +113,7 @@ public class Gamei {
 			if(Player2[P2card]==Player1[P1card]) {
 			    System.out.println("ALL CARDS ARE PLAYER2'S");
 			}else {
-				System.out.println("DİSCARDED =" + Player2[P2card]);
+				System.out.println("DİSCARDED =" + Player2[P2card].getShapes()+Player2[P1card].getSuits());
 				System.out.println("YOUR TURN");
 				System.out.println("..............");
 			}
