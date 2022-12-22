@@ -1,25 +1,25 @@
 
 public class Deck {
 	public String suits;
-	public String shapes;
+	public String values;
 	
 	Deck() {
-		this.suits="a";
-		this.suits="a";
+		suits=" ";
+		values=" ";
 		
 	}
     //get
 	public String getSuits() {
 		return suits;
 	}
-	public String getShapes() {
-		return shapes;
+	public String getValues() {
+		return values;
 	}
 	//set
 	public void setSuits(String Suits) {
-		this.suits=suits;
+		this.suits=Suits;
 	}
-	public void setShapes(String Shapes) {
-		this.shapes=shapes;
+	public void setValues(String Values) {
+		this.values=Values;
 	}
 }
