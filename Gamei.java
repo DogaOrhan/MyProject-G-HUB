@@ -1,11 +1,10 @@
 import java.util.Random;
 import java.util.Scanner;
 
-
 public class Gamei {
-	public String[] shapes= {"♠","♣","♥ ","♦"};
+	public String[] suits= {"maca","kupa","sinek","karo"};//{"♠","♣","♥ ","♦"};
 
-	public String[] suits= {"ace","2","3","4","5","6","7","8","9","10","J","Q","K"};
+	public String[] values= {"ace","2","3","4","5","6","7","8","9","10","J","Q","K"};
 	
 	Deck[] deck = new Deck[52];
 	Deck[] Table= new Deck[4];
@@ -20,8 +19,8 @@ public class Gamei {
 		int num=0;
 		for(int j=0;j<4;j++) {
 			for(int i=0;i<13;i++) {
-				deck[num].setSuits(suits[i]);
-				deck[num].setShapes(shapes[j]);
+				deck[num].setSuits(suits[j]);
+				deck[num].setValues(values[i]);
 				num++;
 			}
 		}
@@ -39,7 +38,7 @@ public class Gamei {
 			
 		}
 		for(int i=0; i<deck.length;i++) {
-		//	System.out.println(deck[i]);
+		
 		}
 		//System.out.println("finish");
 
@@ -68,15 +67,15 @@ public class Gamei {
 		System.out.println("YOUR CARDS");			
 		for(int i=0;i<8;i=i+2) {
 			Player1[i/2]=deck[i];
-			System.out.println((i/2)+1 +" = "+ Player1[i/2].getShapes()+Player1[i/2].getSuits());
+			System.out.println((i/2)+1 +" = "+ Player1[i/2].getValues()+Player1[i/2].getSuits());
 		}
-		System.out.println("..........");
-		System.out.println("PLAYER2'S CARDS");
+		//System.out.println("..........");
+		//System.out.println("PLAYER2'S CARDS");
 		for(int i=1;i<8;i=i+2) {
 			Player2[(i-1)/2]=deck[i];
-			System.out.println(Player2[(i-1)/2].getShapes()+Player2[(i-1)/2].getSuits());
+			//System.out.println(Player2[(i-1)/2].getValues()+Player2[(i-1)/2].getSuits());
 		}
-		System.out.println("..........");
+		//System.out.println("..........");
 				
 		for(int i=8;i<12;i++) {
 			Table[i-8]=deck[i];
@@ -85,13 +84,16 @@ public class Gamei {
 		}
 		System.out.println("..........");
 
-		System.out.println("topcard= " + Table[3].getShapes()+Table[3].getSuits());
+		System.out.println("topcard= " + Table[3].getValues()+Table[3].getSuits());
 	}
 
 	public void Move() {			
 		Scanner sc =new Scanner(System.in);
-		
+		Deck[] Sidecards1=new Deck[52];
+		Deck[] Tablecard=new Deck[52];
+		Deck[] Sidecards2=new Deck[52];
 		for (int i=0;i<6;i++) {
+			for (int j=0;j<4;j++) {
 			System.out.println("SELECT CARD");
 			//p1
 			int P1card=sc.nextInt()-1;
@@ -100,22 +102,33 @@ public class Gamei {
 				P1card=sc.nextInt()-1;
 			}
 			
-			if(Player1[P1card]==Table[3]) {
+			int counter=0;
+			Tablecard[counter]=Player1[P1card];
+			counter++;
+			
+			if(((String) Tablecard[counter-1].getValues()).compareTo((String)deck[P1card].getValues()) == 0) {
 				System.out.println("ALL CARDS ARE YOUR");
+				counter=0;
+				System.out.println("Topcard=  ");
+				
 			}else {
-				System.out.println("SELECTED CARD=" + Player1[P1card].getShapes()+Player1[P1card].getSuits());
+				System.out.println("SELECTED CARD=" + Player1[P1card].getValues()+Player1[P1card].getSuits());
 				System.out.println("PLAYER2'S TURN");
 				System.out.println("..............");
 			}
 			//P2
 			Random r= new Random();
 			int P2card = r.nextInt(4);
-			if(Player2[P2card]==Player1[P1card]) {
+		
+			if(((String) Tablecard[counter].getValues()).compareTo((String)deck[P2card].getValues()) == 0) { 
 			    System.out.println("ALL CARDS ARE PLAYER2'S");
+			    counter=0;
+			    System.out.println("Topcard=  ");
 			}else {
-				System.out.println("DİSCARDED =" + Player2[P2card].getShapes()+Player2[P1card].getSuits());
+				System.out.println("DISCARDED =" + Player2[P2card].getValues()+Player2[P2card].getSuits());
 				System.out.println("YOUR TURN");
 				System.out.println("..............");
+			}
 			}
 		}
 	}
