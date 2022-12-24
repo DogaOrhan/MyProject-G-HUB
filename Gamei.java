@@ -2,10 +2,10 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Gamei {
-	public String[] suits= {"maca","kupa","sinek","karo"};//{"♠","♣","♥ ","♦"};
-
+	public String[] suits= {"maca","kupa","sinek","karo"};//{"♠","♣","♥ ","♦"}
 	public String[] values= {"ace","2","3","4","5","6","7","8","9","10","J","Q","K"};
 	
+	Deck[] Tablecard=new Deck[52];
 	Deck[] deck = new Deck[52];
 	Deck[] Table= new Deck[4];
 	Deck[] Player1= new Deck[4];
@@ -78,7 +78,8 @@ public class Gamei {
 		//System.out.println("..........");
 				
 		for(int i=8;i<12;i++) {
-			Table[i-8]=deck[i];
+			Table[i-8]=deck[i-8];
+			Tablecard[i-8]=Table[i-8];
 			//System.out.println(Table[i-8]);
 						
 		}
@@ -90,8 +91,10 @@ public class Gamei {
 	public void Move() {			
 		Scanner sc =new Scanner(System.in);
 		Deck[] Sidecards1=new Deck[52];
-		Deck[] Tablecard=new Deck[52];
 		Deck[] Sidecards2=new Deck[52];
+		
+		int counter=0;
+		counter=counter+4;
 		for (int i=0;i<6;i++) {
 			for (int j=0;j<4;j++) {
 			System.out.println("SELECT CARD");
@@ -101,14 +104,17 @@ public class Gamei {
 				System.out.println("ENTER VALİD NUMBER");
 				P1card=sc.nextInt()-1;
 			}
+			System.out.println("topcard="+Player1[P1card].getValues()+Player1[P1card].getSuits());
 			
-			int counter=0;
 			Tablecard[counter]=Player1[P1card];
-			counter++;
 			
-			if(((String) Tablecard[counter-1].getValues()).compareTo((String)deck[P1card].getValues()) == 0) {
-				System.out.println("ALL CARDS ARE YOUR");
-				counter=0;
+			
+			if(((String) Tablecard[counter-1].getValues()).compareTo((String)Player1[P1card].getValues()) == 0) {
+				System.out.println("ALL CARDS ARE YOURS");
+				counter++;
+				
+				// alınan kartları oyuncuya ver
+				
 				System.out.println("Topcard=  ");
 				
 			}else {
@@ -116,22 +122,37 @@ public class Gamei {
 				System.out.println("PLAYER2'S TURN");
 				System.out.println("..............");
 			}
+			Player1[P1card]=null;
+			
 			//P2
 			Random r= new Random();
 			int P2card = r.nextInt(4);
-		
-			if(((String) Tablecard[counter].getValues()).compareTo((String)deck[P2card].getValues()) == 0) { 
-			    System.out.println("ALL CARDS ARE PLAYER2'S");
-			    counter=0;
-			    System.out.println("Topcard=  ");
-			}else {
-				System.out.println("DISCARDED =" + Player2[P2card].getValues()+Player2[P2card].getSuits());
-				System.out.println("YOUR TURN");
-				System.out.println("..............");
+			Tablecard[counter]=Player2[P2card];
+			while(true) {
+				for (int k=0;k<4;k++) {
+					if(((String) Tablecard[counter-1].getValues()).compareTo((String)Player2[P2card].getValues()) == 0) { 
+					    System.out.println("ALL CARDS ARE PLAYER2'S");
+					    System.out.println("Topcard=  ");
+					    break;
+					}
+				}
+				for (int k=0;k<4;k++) {
+					if((String) Player2[P2card].getValues()== "J" ) {
+						System.out.println("ALL CARDS ARE PLAYER2'S");
+						System.out.println("Topcard=  ");
+						break;
+					}
+				}
+				
+					System.out.println("DISCARDED =" + Player2[P2card].getValues()+Player2[P2card].getSuits());
+					System.out.println("YOUR TURN");
+					System.out.println("..............");
+				 
 			}
 			}
 		}
 	}
 }
+
 	
 
