@@ -1,4 +1,5 @@
 import java.util.Random;
+
 import java.util.Scanner;
 
 public class Gamei {
@@ -35,14 +36,7 @@ public class Gamei {
 			Deck Temp = deck[i];
 			deck[i]=deck[random];
 			deck[random]=Temp;
-			
 		}
-		for(int i=0; i<deck.length;i++) {
-		
-		}
-		//System.out.println("finish");
-
-
 	}
 		
 	public void Cut() {
@@ -61,8 +55,8 @@ public class Gamei {
 			bottom[i-cut]=deck[i];
 			deck2[i]=bottom[i-cut];
 		}
-		
 	}
+	
 	public void Deal() {
 		System.out.println("YOUR CARDS");			
 		for(int i=0;i<8;i=i+2) {
@@ -78,7 +72,7 @@ public class Gamei {
 		//System.out.println("..........");
 				
 		for(int i=8;i<12;i++) {
-			Table[i-8]=deck[i-8];
+			Table[i-8]=deck[i];
 			Tablecard[i-8]=Table[i-8];
 			//System.out.println(Table[i-8]);
 						
@@ -86,6 +80,8 @@ public class Gamei {
 		System.out.println("..........");
 
 		System.out.println("topcard= " + Table[3].getValues()+Table[3].getSuits());
+		
+	
 	}
 
 	public void Move() {			
@@ -93,66 +89,143 @@ public class Gamei {
 		Deck[] Sidecards1=new Deck[52];
 		Deck[] Sidecards2=new Deck[52];
 		
-		int counter=0;
-		counter=counter+4;
-		for (int i=0;i<6;i++) {
+		int lastcard=0;
+		int Sidecounter1=0;
+		int Sidecounter2=0;
+		lastcard=lastcard+4;
+		
+		int a =0;
 			for (int j=0;j<4;j++) {
-			System.out.println("SELECT CARD");
-			//p1
-			int P1card=sc.nextInt()-1;
-			while(P1card>=4) {
-				System.out.println("ENTER VALİD NUMBER");
-				P1card=sc.nextInt()-1;
-			}
-			System.out.println("topcard="+Player1[P1card].getValues()+Player1[P1card].getSuits());
-			
-			Tablecard[counter]=Player1[P1card];
-			
-			
-			if(((String) Tablecard[counter-1].getValues()).compareTo((String)Player1[P1card].getValues()) == 0) {
-				System.out.println("ALL CARDS ARE YOURS");
-				counter++;
-				
-				// alınan kartları oyuncuya ver
-				
-				System.out.println("Topcard=  ");
-				
-			}else {
-				System.out.println("SELECTED CARD=" + Player1[P1card].getValues()+Player1[P1card].getSuits());
-				System.out.println("PLAYER2'S TURN");
-				System.out.println("..............");
-			}
-			Player1[P1card]=null;
-			
-			//P2
-			Random r= new Random();
-			int P2card = r.nextInt(4);
-			Tablecard[counter]=Player2[P2card];
-			while(true) {
-				for (int k=0;k<4;k++) {
-					if(((String) Tablecard[counter-1].getValues()).compareTo((String)Player2[P2card].getValues()) == 0) { 
-					    System.out.println("ALL CARDS ARE PLAYER2'S");
-					    System.out.println("Topcard=  ");
-					    break;
-					}
+				a=0;
+				//p1
+				System.out.println("SELECT CARD");
+				int P1card=sc.nextInt()-1;
+				while(P1card>=4) {
+					System.out.println("ENTER VALİD NUMBER");
+					P1card=sc.nextInt()-1;
 				}
-				for (int k=0;k<4;k++) {
-					if((String) Player2[P2card].getValues()== "J" ) {
-						System.out.println("ALL CARDS ARE PLAYER2'S");
+				
+			
+				Tablecard[lastcard]=Player1[P1card];
+				if(lastcard>1) {
+					if(((String) Tablecard[lastcard-1].getValues()).compareTo((String)Player1[P1card].getValues()) == 0) {
+						System.out.println("topcard="+Player1[P1card].getValues()+Player1[P1card].getSuits());
+						System.out.println("ALL CARDS ARE YOURS");
+						lastcard++;
+						Sidecounter1=Sidecounter1+lastcard;
+					
 						System.out.println("Topcard=  ");
-						break;
+						for(int i= Sidecounter1;i<Sidecounter1+lastcard;i++) {
+							Sidecards1[i]=Tablecard[i];
+						}
+						for (int b=0;b<lastcard;b++) {
+							Tablecard[b]=null;
+						}
+						lastcard=0;
+						a++;
 					}
 				}
+				if(lastcard>1) {
+					if (a==0) {
+						if((String) Player1[P1card].getValues()== "J" ) {
+							System.out.println("topcard="+Player1[P1card].getValues()+Player1[P1card].getSuits());
+							System.out.println("ALL CARDS ARE YOURS");
+							System.out.println("Topcard=  ");
+							a++;
+							for(int i= Sidecounter1;i<Sidecounter1+lastcard;i++) {
+								Sidecards1[i]=Tablecard[i];
+							}
+							for (int b=0;b<lastcard;b++) {
+								Tablecard[b]=null;
+							}
+						lastcard=0;
+						}
+					}
+				}
+			 	
+				if(a==0) {
+						System.out.println("SELECTED CARD=" + Player1[P1card].getValues()+Player1[P1card].getSuits());
+						System.out.println("PLAYER2'S TURN");
+						System.out.println("..............");
+					
+				}
+				Player1[P1card]=null;
 				
-					System.out.println("DISCARDED =" + Player2[P2card].getValues()+Player2[P2card].getSuits());
-					System.out.println("YOUR TURN");
-					System.out.println("..............");
-				 
-			}
-			}
-		}
+				//P2
+				
+				
+				a=0;
+					for (int k=0;k<4;k++) {
+						if(lastcard>1) {
+							if(Player2[k]!=null) {
+								if(((String) Tablecard[lastcard-1].getValues()).compareTo((String)Player2[k].getValues()) == 0) {
+									Tablecard[lastcard]=Player2[k];
+									lastcard++;
+								    System.out.println("ALL CARDS ARE PLAYER2'S");
+								    System.out.println("DISCARDED =" + Player2[k].getValues()+Player2[k].getSuits());
+									System.out.println("Topcard=  ");
+								    System.out.println("YOUR TURN");
+								    
+								    a++;
+								    for(int i= Sidecounter2;i<Sidecounter2+lastcard;i++) {
+										Sidecards2[i]=Tablecard[i];
+								    }
+								    for (int b=0;b<lastcard;b++) {
+										Tablecard[b]=null;
+									}
+								    lastcard=0;
+								    Player2[k]=null;
+								}
+							}
+						}
+					}
+						if (a==0) {
+							for (int k=0;k<4;k++) {
+								if(Player2[k]!=null) {
+									if((String) Player2[k].getValues()== "J" ) {
+										System.out.println("ALL CARDS ARE PLAYER2'S");
+										System.out.println("DISCARDED =" + Player2[k].getValues()+Player2[k].getSuits());
+										System.out.println("Topcard=  ");
+										System.out.println("YOUR TURN");									
+										a++;
+										for(int i= Sidecounter2;i<Sidecounter2+lastcard;i++) {
+											Sidecards2[i]=Tablecard[i];
+										}
+										for (int b=0;b<lastcard;b++) {
+											Tablecard[b]=null;
+										}
+										lastcard=0;
+										Player2[k]=null;
+								}
+							}
+						}
+					
+					}
+						Random r= new Random();
+						int P2card = r.nextInt(4);
+						//SEÇİLEN NULL SE BİDAHA SEC
+					if(a==0) {
+						System.out.println("DISCARDED =" + Player2[P2card].getValues()+Player2[P2card].getSuits());
+						System.out.println("YOUR TURN");
+						System.out.println("..............");
+						a++;
+					}
+				}
+				}
+			
+		
+	public void Point() {
+		int P1point=0;
+		int P2point=0;
+		
 	}
 }
+		
+				
+		
+		
+	
+
 
 	
 
