@@ -8,9 +8,9 @@ public class Gamei {
 	
 	Deck[] Tablecard=new Deck[52];
 	Deck[] deck = new Deck[52];
-	Deck[] Table= new Deck[4];
-	Deck[] Player1= new Deck[4];
-	Deck[] Player2= new Deck[4];
+	Deck[] Table= new Deck[4];// deal
+	Deck[] Player1= new Deck[4];//deal
+	Deck[] Player2= new Deck[4];//deal
 	Deck[] decknew= new Deck[52];
 	Deck[] Sidecards1=new Deck[52];
 	Deck[] Sidecards2=new Deck[52];
@@ -19,7 +19,9 @@ public class Gamei {
 	int P2point=0;
 	int Sidecounter1=0;
 	int Sidecounter2=0;
-	
+	int lastcard=0;
+	String last = "player";//  at the end of the game who will take the last cards -->player1 , -->player2
+
 	
 	public void Deck() {
 		for (int i=0;i<52;i++) {
@@ -41,12 +43,13 @@ public class Gamei {
 		Random rd = new Random();
 		for(int i=0; i<deck.length;i++) {
 			int random = rd.nextInt(52);
-			Deck Temp = deck[i];
+			Deck Temp = deck[i];//additional empty place to shuffle
 			deck[i]=deck[random];
 			deck[random]=Temp;
 		}
 	}
 		
+	
 	public void Cut() {
 		Random r=new Random();
 		int cut = r.nextInt(deck.length);
@@ -64,7 +67,9 @@ public class Gamei {
 			deck2[i]=bottom[i-cut];
 		}
 	}
-	public void Dealfirst() {
+	
+	
+	public void Dealfirst() {//to deal 12 card in first dealing
 			
 			System.out.println("YOUR CARDS");			
 			for(int i=0;i<8;i=i+2) {
@@ -85,50 +90,39 @@ public class Gamei {
 	
 			System.out.println("topcard= " + Table[3].getValues()+Table[3].getSuits());
 			
-			
+			lastcard=lastcard+4;
+
 		
 		}
-	public void Dealothers() {
-		deal=deal+8;
+	public void Dealothers() {//to deal 8 card in 6 rounds(FOR İN MAİNN)
+		deal=deal+8;//to deal the next 8 cards
 
 		System.out.println("YOUR CARDS");			
 		for(int i=0;i<8;i=i+2) {
 			
-				Player1[i/2]=deck[i+deal];
+				Player1[i/2]=deck[i+deal];////////P1'S CARDS FOR EACH ROUNDS(AFTER THE FİRST ROUND)
 				System.out.println((i/2)+1 +" = "+ Player1[i/2].getValues()+Player1[i/2].getSuits());
-			}
+		}
 		
-		//System.out.println("..........");
-		//System.out.println("PLAYER2'S CARDS");
-		for(int i=1;i<8;i=i+2) {
+		for(int i=1;i<8;i=i+2) {/////////P2'S CARDS FOR EACH ROUNDS(AFTER THE FİRST ROUND)
 			Player2[(i-1)/2]=deck[i+deal];
-			//System.out.println(Player2[(i-1)/2].getValues()+Player2[(i-1)/2].getSuits());
 		}
-		//System.out.println("..........");
 				
-		for(int i=8;i<12;i++) {
-			Table[i-8]=deck[i];
-			Tablecard[i-8]=Table[i-8];
-			//System.out.println(Table[i-8]);
-						
-		}
 		System.out.println("..........");
+
 	}
 
 	public void Move() {			
 		Scanner sc =new Scanner(System.in);
 		
-		
-		int lastcard=0;
-		
-		lastcard=lastcard+4;
+
 		
 		int a =0;
 			for (int j=0;j<4;j++) {
 				a=0;
-				//p1
+				////////////////////////////////////////// P1 ///////////////////////////////////////////
 				System.out.println("SELECT CARD");
-				int P1card=sc.nextInt()-1;
+				int P1card=sc.nextInt()-1;    //array begins from 0 so -1
 				while(P1card>=4 || Player1[P1card]==null) {
 					System.out.println("ENTER VALID NUMBER");
 					P1card=sc.nextInt()-1;
@@ -141,31 +135,35 @@ public class Gamei {
 						System.out.println("topcard="+Player1[P1card].getValues()+Player1[P1card].getSuits());
 						System.out.println("ALL CARDS ARE YOURS");
 						
-						if(lastcard<2) {
+						if(lastcard<2) {   //it means there is just 1 card on the table 
 							P1point +=10;
+							System.out.println("--------------------------------------------------"+P1point  );
 							System.out.println("PISTI");
 						}
-						lastcard++;
-						Sidecounter1=Sidecounter1+lastcard;
+						lastcard++;  //integer 
+						Sidecounter1=Sidecounter1+lastcard;// adding 
 					
 						System.out.println("Topcard=  ");
 						for(int i= Sidecounter1;i<Sidecounter1+lastcard;i++) {
-							Sidecards1[i]=Tablecard[i];
+							Sidecards1[i]=Tablecard[i];  //to fill the sidecards with taken from table
 						}
-						  for(int i=0;i<Sidecounter1;i++) {
-							     if(Sidecards1[i].getValues()=="2" &&  Sidecards1[i].getSuits()=="sinek") {
+						  for(int i=0;i<lastcard;i++) {  //FOR POİNT
+							     if(Tablecard[i].getValues()=="2" &&  Tablecard[i].getSuits()=="sinek") {
 									 P1point += 2;
-								 } else if (Sidecards1[i].getValues()=="10" &&  Sidecards1[i].getSuits()=="karo") {
+								 } else if (Tablecard[i].getValues()=="10" &&  Tablecard[i].getSuits()=="karo") {
 									 P1point += 3;
 								 } else {
 									 P1point++;
 								 }
+							//  System.out.println("--------------------------------------------------"+P1point  );
+
 							}
 						for (int b=0;b<lastcard;b++) {
-							Tablecard[b]=null;
+							Tablecard[b]=null;//TO MAKE TABLE EMPTY
 						}
 						lastcard=0;
 						a++;
+						last = "player1";
 						
 					}
 				}
@@ -180,17 +178,22 @@ public class Gamei {
 								Sidecards1[i]=Tablecard[i];
 								
 							}
-							for(int i=0;i<Sidecounter1;i++) {
-						     if(Sidecards1[i].getValues()=="2" &&  Sidecards1[i].getSuits()=="sinek") {
+							for(int i=0;i<lastcard;i++) {
+						     if(Tablecard[i].getValues()=="2" &&  Tablecard[i].getSuits()=="sinek") {
 								 P1point += 2;
-							 } else if (Sidecards1[i].getValues()=="10" &&  Sidecards1[i].getSuits()=="karo") {
+							 } else if (Tablecard[i].getValues()=="10" &&  Tablecard[i].getSuits()=="karo") {
 								 P1point += 3;
+							 } else {
+								 P1point++;
 							 }
+			//			      System.out.println("--------------------------------------------------"+P1point  );
+
 							}
 							for (int b=0;b<lastcard;b++) {
 								Tablecard[b]=null;
 							}
 						lastcard=0;
+						last="player1";
 						}
 					}
 				}
@@ -203,7 +206,7 @@ public class Gamei {
 				}
 				Player1[P1card]=null;
 				
-				//P2
+				//////////////////////////////////////P2////////////////////////////////////////////
 				
 				
 				a=0;
@@ -215,6 +218,7 @@ public class Gamei {
 									
 									if(lastcard<2) {
 										P2point +=10;
+										 // System.out.println("--------------------------------------------------"+P2point  );
 										System.out.println("PISTI");
 									}
 									lastcard++;
@@ -223,9 +227,9 @@ public class Gamei {
 									System.out.println("Topcard=  ");
 								    System.out.println("YOUR TURN");
 								    System.out.println("YOUR CARDS");			
-									for(int i=0;i<8;i=i+2) {
+									for(int i=0;i<8;i=i+2) { // if not null show card ,else show "------"
 										if(Player1[i/2]!=null) {
-											Player1[i/2]=deck[i];
+											Player1[i/2]=deck[i + deal];
 											System.out.println((i/2)+1 +" = "+ Player1[i/2].getValues()+Player1[i/2].getSuits());
 							
 										}else {
@@ -237,20 +241,24 @@ public class Gamei {
 								    for(int i= Sidecounter2;i<Sidecounter2+lastcard;i++) {
 										Sidecards2[i]=Tablecard[i];
 								    }
-								    for(int i=0;i<Sidecounter1;i++) {
-									     if(Sidecards2[i].getValues()=="2" &&  Sidecards2[i].getSuits()=="sinek") {
+								    for(int i=0;i<lastcard;i++) { //point
+									     if(Tablecard[i].getValues()=="2" &&  Tablecard[i].getSuits()=="sinek") {
 											 P2point += 2;
-										 } else if (Sidecards2[i].getValues()=="10" &&  Sidecards2[i].getSuits()=="karo") {
+										 } else if (Tablecard[i].getValues()=="10" &&  Tablecard[i].getSuits()=="karo") {
 											 P2point += 3;
 										 } else {
 											 P2point++;
 										 }
+									    // System.out.println("--------------------------------------------------"+P2point  );
+
 									}
+								    
 								    for (int b=0;b<lastcard;b++) {
 										Tablecard[b]=null;
 									}
 								    lastcard=0;
 								    Player2[k]=null;
+								    last="player2";
 								}
 							}
 						}
@@ -259,12 +267,14 @@ public class Gamei {
 							for (int k=0;k<4;k++) {
 								if(Player2[k]!=null) {
 									if((String) Player2[k].getValues()== "J" ) {
+										
 										System.out.println("ALL CARDS ARE PLAYER2'S");
 										System.out.println("DISCARDED =" + Player2[k].getValues()+Player2[k].getSuits());
 										System.out.println("Topcard=  ");
 										System.out.println("YOUR TURN");	
-										System.out.println("YOUR CARDS");			
-										for(int i=0;i<8;i=i+2) {
+										System.out.println("YOUR CARDS");
+										
+										for(int i=0;i<8;i=i+2) { // if not null show card ,else show" ------"
 											if(Player1[i/2]!=null) {
 												Player1[i/2]=deck[i];
 												System.out.println((i/2)+1 +" = "+ Player1[i/2].getValues()+Player1[i/2].getSuits());
@@ -274,23 +284,26 @@ public class Gamei {
 											}
 										}
 										a++;
+										P2point++;
 										for(int i= Sidecounter2;i<Sidecounter2+lastcard;i++) {
-											Sidecards2[i]=Tablecard[i];
+											Sidecards2[i]=Tablecard[i];  //adding to Sidecards2
 										}
-										  for(int i=0;i<Sidecounter2;i++) {
-											     if(Sidecards2[i].getValues()=="2" &&  Sidecards2[i].getSuits()=="sinek") {
+										  for(int i=0;i<lastcard;i++) {  //POİNT
+											     if(Tablecard[i].getValues()=="2" &&  Tablecard[i].getSuits()=="sinek") {
 													 P2point += 2;
-												 } else if (Sidecards2[i].getValues()=="10" &&  Sidecards2[i].getSuits()=="karo") {
+												 } else if (Tablecard[i].getValues()=="10" &&  Tablecard[i].getSuits()=="karo") {
 													 P2point += 3;
 												 } else {
 													 P2point++;
 												 }
+											   //  System.out.println("--------------------------------------------------"+P2point  );
 											}
 										for (int b=0;b<lastcard;b++) {
-											Tablecard[b]=null;
+											Tablecard[b]=null;//to make table empty
 										}
 										lastcard=0;
 										Player2[k]=null;
+										last="player2";
 								}
 							}
 						}
@@ -311,7 +324,7 @@ public class Gamei {
 						lastcard++;
 						for(int i=0;i<8;i=i+2) {
 							if(Player1[i/2]!=null) {
-								Player1[i/2]=deck[i];
+								Player1[i/2]=deck[i+deal];
 								System.out.println((i/2)+1 +" = "+ Player1[i/2].getValues()+Player1[i/2].getSuits());
 				
 							}else {
@@ -327,22 +340,26 @@ public class Gamei {
 			
 		
 	 public void Point() {
-		 for(int i=0;i<Sidecounter1;i++) {
-			 if(Sidecards1[i]!=null) {
-				P1point++; 
+		 if (last == "player1") {
+			 for(int i= Sidecounter1;i<Sidecounter1+lastcard;i++) {
+					Sidecards1[i]=Tablecard[i]; 
+					P1point++;
+					Tablecard[i]=null;
 			 }
 		 }
-		 if(Sidecounter1>Sidecounter2) {
+		 if (last == "player2") {
+			 for(int i= Sidecounter2;i<Sidecounter2+lastcard;i++) {
+					Sidecards2[i]=Tablecard[i]; 
+					P2point++;
+					Tablecard[i]=null;
+			 }
+		 }
+		 if(Sidecounter1>Sidecounter2) { //card majority
 			 P1point+=3;
 		 }
 		 System.out.println(P1point);
 		 
-		 for(int i=0;i<Sidecounter2;i++) {
-			 if(Sidecards2[i]!=null) {
-				P2point++;
-			 } 
-		 }
-		 if(Sidecounter2>Sidecounter1) {
+		 if(Sidecounter2>Sidecounter1) { // card majority
 			 P2point+=3;
 		 }
 		 System.out.println(P2point);
